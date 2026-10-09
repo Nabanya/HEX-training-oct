@@ -1,0 +1,74 @@
+Scenario 1: Online Food Ordering
+Collections: customers, restaurants, orders
+customers
+json
+{
+  "_id": "c1",
+  "name": "Nivi",
+  "phone": "9500841838",
+  "address": "Anna Nagar, Chennai"
+}
+restaurants
+json
+{
+  "_id": "r5",
+  "name": "Spice Garden",
+  "city": "Chennai",
+  "cuisine": "South Indian"
+}
+orders
+json
+{
+  "_id": "o1",
+  "customer_id": "c1",
+  "restaurant_id": "r5",
+  "items": [
+    { "name": "Biryani", "price": 180, "qty": 2 },
+    { "name": "Raita", "price": 40, "qty": 1 }
+  ],
+  "total": 400,
+  "status": "delivered"
+}
+* Embedded: items. The price is saved at purchase time, so later menu changes don't affect old orders.
+* Referenced: customer_id points to c1 in customers, and restaurant_id points to r5 in restaurants. They are stored once and shared across many orders.
+Scenario 2: Movie Ticket Booking
+Collections: users, movies, bookings
+users
+json
+{
+  "_id": "u1",
+  "name": "Divya",
+  "email": "divya@example.com",
+  "phone": "9840052891"
+}
+movies
+json
+{
+  "_id": "mv1",
+  "title": "Space Odyssey",
+  "language": "Tamil",
+  "genres": ["Sci-Fi", "Adventure"],
+  "cast": [
+    { "name": "Actor A", "role": "Lead" },
+    { "name": "Actor B", "role": "Support" }
+  ]
+}
+bookings
+json
+{
+  "_id": "b1",
+  "user_id": "u1",
+  "movie_id": "mv1",
+  "show": { "theatre": "PVR Chennai", "screen": 3, "time": "2026-10-10T18:30" },
+  "seats": ["D4", "D5"],
+  "price_per_seat": 200,
+  "total": 400,
+  "status": "confirmed"
+}
+* Embedded: 
+o genres and cast in the movie. They are small and always shown with it.
+o show and seats in the booking. They describe only that booking, and the show details act as a snapshot of what was booked.
+* Referenced: user_id and movie_id in bookings. 
+o One user makes many bookings.
+o One movie has thousands of bookings.
+
