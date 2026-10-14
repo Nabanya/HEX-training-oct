@@ -1,0 +1,412 @@
+COMMERCE ASSESSMENT
+
+
+1. Display all products.
+db.products.find()
+
+2. Display only one product having product_id = 103 .
+db.products.findOne({ product_id: 103 })
+
+3. Insert a new product with:
+Product ID 107
+Product Name Bluetooth Speaker
+Category Electronics
+Brand SoundMax
+Price 7500
+Stock 20
+Available true
+
+db.products.insertOne({
+  product_id: 107,
+  product_name: "Bluetooth Speaker",
+  category: "Electronics",
+  brand: "SoundMax",
+  price: 7500,
+  stock: 20,
+  available: true,
+  launch_date: ISODate("2026-05-01"),
+  colors: ["Black", "Blue"],
+  specifications: { wireless: true, warranty_years: 1 }
+})
+
+
+4. Insert two additional products in a single operation.
+db.products.insertMany([
+  {
+    product_id: 108,
+    product_name: "USB Hub",
+    category: "Accessories",
+    brand: "ClickMax",
+    price: 1200,
+    stock: 25,
+    available: true,
+    launch_date: ISODate("2026-05-10"),
+    colors: ["Silver"],
+    specifications: { ports: 4, warranty_years: 1 }
+  },
+  {
+    product_id: 109,
+    product_name: "Ergonomic Mousepad",
+    category: "Accessories",
+    brand: "WorkSpace",
+    price: 800,
+    stock: 50,
+    available: true,
+    launch_date: ISODate("2026-05-12"),
+    colors: ["Black"],
+    specifications: { padded: true, warranty_years: 1 }
+  }
+])
+
+5. Update the price of product 102 to 2000 .
+db.products.updateOne(
+  { product_id: 102 },
+  { $set: { price: 2000 } }
+)
+
+6. Update both stock and availability of product 105 .
+db.products.updateOne(
+  { product_id: 105 },
+  { $set: { stock: 15, available: true } }
+)
+
+7. Increase the stock of product 104 by 10 .
+db.products.updateOne(
+  { product_id: 104 },
+  { $inc: { stock: 10 } }
+)
+
+8. Reduce the stock of product 106 by 3 .
+db.products.updateOne(
+  { product_id: 106 },
+  { $inc: { stock: -3 } }
+)
+
+9. Add a new field called: discount_percent with value 10 to product 101 .
+db.products.updateOne(
+  { product_id: 101 },
+  { $set: { discount_percent: 10 } }
+)
+
+10. Remove discount_percent from product 101 .
+db.products.updateOne(
+  { product_id: 101 },
+  { $unset: { discount_percent: "" } }
+)
+
+11. Delete one product using its product_id .
+db.products.deleteOne({ product_id: 109 })
+
+12. Delete all products where:stock = 0
+db.products.deleteMany({ stock: 0 })
+
+13. Verify the documents before and after each delete.
+//before deletion
+db.products.find({ stock: 0 })
+//deletion
+db.products.deleteMany({ stock: 0 })
+//after deletion
+db.products.find({ stock: 0 })
+
+14. Find all Electronics products.
+db.products.find({ category: "Electronics" })
+
+15. Find products costing more than ₹10,000 .
+db.products.find({ price: { $gt: 10000 } })
+
+16. Find products costing between ₹5,000 and ₹30,000 .
+db.products.find({ price: { $gte: 5000, $lte: 30000 } })
+
+17. Find products whose stock is less than 10 .
+db.products.find({ stock: { $lt: 10 } })
+
+18. Find products that are currently available.
+db.products.find({ available: true })
+
+19. Find products that are not available.
+db.products.find({ available: false })
+
+20. Find products belonging to either: Electronics or Furniture
+db.products.find({ category: { $in: ["Electronics", "Furniture"] } })
+
+21. Find products that are not in the Accessories category.
+db.products.find({ category: { $ne: "Accessories" } })
+
+22. Find products where: price > 10000 AND stock > 5
+db.products.find({ price: { $gt: 10000 }, stock: { $gt: 5 } })
+
+23. Find products where: category = Electronics OR price < 5000
+db.products.find({
+  $or: [
+    { category: "Electronics" },
+    { price: { $lt: 5000 } }
+  ]
+})
+
+24. Find products launched after: 1 February 2026
+db.products.find({ launch_date: { $gt: ISODate("2026-02-01") } })
+
+25. Find products launched between:1 January 2026 and 31 March 2026
+db.products.find({
+  launch_date: {
+    $gte: ISODate("2026-01-01"),
+    $lte: ISODate("2026-03-31")
+  }
+})
+
+26. Display only: product_name,price .Do not display _id .
+db.products.find({}, { _id: 0, product_name: 1, price: 1 })
+
+27. Display: product_name,category,stock.
+db.products.find({}, { _id: 0, product_name: 1, category: 1, stock: 1 })
+
+28. Sort products by price from lowest to highest.
+db.products.find().sort({ price: 1 })
+
+29. Sort products by price from highest to lowest.
+db.products.find().sort({ price: -1 })
+
+30. Sort products alphabetically by product name.
+db.products.find().sort({ product_name: 1 })
+
+31. Display the three most expensive products.
+db.products.find().sort({ price: -1 }).limit(3)
+
+32. Display the two products having the lowest stock.
+db.products.find().sort({ stock: 1 }).limit(2)
+
+33. Find products available in Black .
+db.products.find({ colors: "Black" })
+
+34. Find products available in both:Black and Silver
+db.products.find({ colors: { $all: ["Black", "Silver"] } })
+
+35. Find products available in either: White or Blue
+db.products.find({ colors: { $in: ["White", "Blue"] } })
+
+36. Add Grey to product 101 .
+db.products.updateOne(
+  { product_id: 101 },
+  { $push: { colors: "Grey" } }
+)
+
+37. Add Black to product 101 without creating a duplicate if it already exists.
+db.products.updateOne(
+  { product_id: 101 },
+  { $addToSet: { colors: "Black" } }
+)
+
+38. Remove Red from product 102 .
+db.products.updateOne(
+  { product_id: 102 },
+  { $pull: { colors: "Red" } }
+)
+
+39. Display products having more than one color.
+db.products.find({ "colors.1": { $exists: true } })
+
+40. Find products whose warranty is 2 years.
+db.products.find({ "specifications.warranty_years": 2 })
+
+41. Find products where: specifications.adjustable = true
+db.products.find({ "specifications.adjustable": true })
+
+42. Find products with: specifications.wireless = true
+db.products.find({ "specifications.wireless": true })
+
+43. Change the warranty of product 103 from 3 to 5 years.
+db.products.updateOne(
+  { product_id: 103 },
+  { $set: { "specifications.warranty_years": 5 } }
+)
+
+44. Add specifications.country_of_origin to any two products.
+db.products.updateMany(
+  { product_id: { $in: [101, 102] } },
+  { $set: { "specifications.country_of_origin": "India" } }
+)
+
+45. Find products manufactured in the country you added.
+db.products.find({ "specifications.country_of_origin": "India" })
+
+46. Find documents where price is stored as a numeric type.
+db.products.find({ price: { $type: "number" } })
+
+47. Find the datatype of: launch_date
+db.products.find({ launch_date: { $type: "date" } })
+
+48. Find the datatype of: colors
+db.products.find({ colors: { $type: "array" } })
+
+49. Find the datatype of: specifications
+db.products.find({ specifications: { $type: "object" } })
+
+50. Insert one intentionally incorrect product where: price is stored as a string instead of a number.
+Example concept: "25000"
+db.products.insertOne({
+  product_id: 999,
+  product_name: "Test Headphones",
+  category: "Accessories",
+  brand: "SoundMax",
+  price: "25000",
+  stock: 10,
+  available: true,
+  launch_date: ISODate("2026-05-01"),
+  colors: ["Black"],
+  specifications: { wireless: true, warranty_years: 1 }
+})
+
+51. Write a query that identifies products where price is stored as a string.
+db.products.find({ price: { $type: "string" } })
+
+52. Correct that product so price becomes numeric.
+db.products.updateOne(
+  { product_id: 999 },
+  { $set: { price: 25000 } }
+)
+
+53. Display all customers.
+db.customers.find()
+
+54. Find active customers.
+db.customers.find({ active: true })
+
+55. Find customers from Hyderabad.
+db.customers.find({ "address.city": "Hyderabad" })
+
+56. Find customers interested in Electronics.
+db.customers.find({ interests: "Electronics" })
+
+57. Find customers interested in both: Furniture, Electronics
+db.customers.find({ interests: { $all: ["Furniture", "Electronics"] } })
+
+58. Change customer 503 from inactive to active.
+db.customers.updateOne(
+  { customer_id: 503 },
+  { $set: { active: true } }
+)
+
+59. Change customer 504 's city.
+db.customers.updateOne(
+  { customer_id: 504 },
+  { $set: { "address.city": "Pune" } }
+)
+
+60. Add a new interest to customer 502 .
+db.customers.updateOne(
+  { customer_id: 502 },
+  { $push: { interests: "Decor" } }
+)
+
+61. Display orders having status Delivered .
+db.orders.find({ status: "Delivered" })
+
+62. Find orders containing Ultra Laptop .
+db.orders.find({ "items.product": "Ultra Laptop" })
+
+63. Find orders containing an item with quantity greater than 1 .
+db.orders.find({ "items.quantity": { $gt: 1 } })
+
+64. Find orders containing: product = Smart Monitor AND quantity = 2
+where both conditions belong to the same item.
+db.orders.find({
+  items: {
+    $elemMatch: { product: "Smart Monitor", quantity: 2 }
+  }
+})
+
+65. Add another item to order 9002 .
+db.orders.updateOne(
+  { order_id: 9002 },
+  { $push: { items: { product: "Wireless Mouse", quantity: 1, price: 1800 } } }
+)
+
+66. Change order 9002 status to Delivered .
+db.orders.updateOne(
+  { order_id: 9002 },
+  { $set: { status: "Delivered" } }
+)
+
+67. Remove one item from an order.
+db.orders.updateOne(
+  { order_id: 9001 },
+  { $pull: { items: { product: "Wireless Mouse" } } }
+)
+
+68. Product can have five colors.
+Array . Becoz it represents a list of similar strings associated with single product.
+
+69. Customer has one residential address.
+Embedded document. As address has components like street,city,pincode which belong together
+as single 1-1 structure and are queried alongside the customer.
+
+70. Order contains multiple products.
+Array of Embedded documents . Each item in a order holds multiple related properties like 
+product_name,quantity,price which are captured at the point of sale.
+
+71. Product has RAM, storage and processor information.
+Embedded document. Key value pairs describing product specifications fit naturally into
+a nested object.
+
+72. Customer can have thousands of orders over many years.
+Reference. As it contains thousands of orders inside one customer document it can be handeled by
+placing  a single customer reference inside each order.
+
+73. Product can have millions of customer reviews.
+Reference. We don't want to load all 1 million reviews into application memory at once.
+Instead we can put a product reference inside each review.
+
+74. Employee has first name and last name.
+Two fields. First name and last name are individualy key value text fields stored directly on the document.
+
+75. Product has multiple tags
+Array. Here values are simple list of strings ideal for index supported lookup queries.
+
+76. Display all active suppliers.
+db.suppliers.find({ active: true })
+
+77. Find suppliers from a city of your choice.
+db.suppliers.find({ city: "Hyderabad" })
+
+78. Find suppliers handling Electronics .
+db.suppliers.find({ categories: "Electronics" })
+
+79. Find suppliers registered after 1 January 2026 .
+db.suppliers.find({ registration_date: { $gt: ISODate("2026-01-01") } })
+
+80. Add another warehouse to one supplier.
+db.suppliers.updateOne(
+  { supplier_id: 201 },
+  { $push: { warehouses: "Secunderabad" } }
+)
+
+81. Change the active status of one supplier.
+db.suppliers.updateOne(
+  { supplier_id: 203 },
+  { $set: { active: true } }
+)
+
+82. Remove one category from one supplier.
+db.suppliers.updateOne(
+  { supplier_id: 204 },
+  { $pull: { categories: "Accessories" } }
+)
+
+83. Display supplier name and city only.
+db.suppliers.find({}, { _id: 0, supplier_name: 1, city: 1 })
+
+84. Sort suppliers by registration date.
+db.suppliers.find().sort({ registration_date: 1 })
+
+85. Explain briefly why you used:
+an array for categories - It allows storing multiple category values per supplies within a
+single field for straightforward multi value matching.
+example:A single supplier can sell goods in more than one category (e.g., both "Electronics" and "Accessories").
+
+an embedded document for contact details - Contact info consists of multiple related details (like phone number and email) 
+that always belong together as a single package.Putting them inside a nested document keeps the data neat, organized 
+and tied directly to that specific supplier.
+
+an array for warehouse locations - One supplier can have multiple warehouse locations across different cities.
+Storing them in a list (["Banjara Hills", "Hitech City"]) inside the suppliers document
+means MongoDB can retrieve the supplier and all their warehouse locations instantly in a single lookup without needing extra collections or complex code.
