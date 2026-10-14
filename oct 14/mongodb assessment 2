@@ -1,3 +1,5 @@
+MongoDB Practical Assessment 2 — Food Delivery
+
 1. Display all restaurants.
 db.restaurants.find()
 {
