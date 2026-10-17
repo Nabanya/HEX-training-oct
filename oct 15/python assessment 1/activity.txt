@@ -1,0 +1,4 @@
+System execution started.
+Reading customer records.
+Processing batch 1.
+Batch 1 successfully processed.
