@@ -1,0 +1,19 @@
+DELAY SUMMARY
+Orders analysed : 298
+Delayed orders  : 200
+
+Top 5 delayed customers:
+customer_id
+23    14
+6     11
+14    11
+9      9
+15     9
+
+Most common delivery issues:
+delivery_issue
+Weather              50
+Stock shortage       41
+Address not found    38
+Courier delay        37
+Damaged package      34

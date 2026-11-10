@@ -1,0 +1,5 @@
+region,total_orders,delayed_orders,avg_delay_days
+South,98,67,3.6
+West,93,62,3.81
+North,55,40,3.38
+East,52,31,3.77

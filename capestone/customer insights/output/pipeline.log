@@ -1,0 +1,56 @@
+2026-11-09 12:00:51,332 | INFO | START  Generate sample data
+2026-11-09 12:00:51,751 | INFO | 
+Wrote 30 customers, 301 orders, 1200 status rows to /home/claude/customer_order_insights/data
+2026-11-09 12:00:51,751 | INFO | DONE   Generate sample data
+2026-11-09 12:00:51,751 | INFO | START  Week 2 - pandas processing
+2026-11-09 12:00:52,346 | INFO | 
+Raw rows: 301
+Clean rows: 298
+
+Sample of processed data:
+  order_id  customer_id  delay_days  delayed
+0  ORD0001            3          -2        0
+1  ORD0002           24           5        1
+2  ORD0003           29           0        0
+3  ORD0004            8           6        1
+4  ORD0006            5           1        1
+
+Delay summary
+  Orders analysed : 298
+  Delayed orders  : 200 (67.1%)
+  Average delay   : 3.65 days (delayed orders)
+
+Top 5 delayed customers (number of delayed orders):
+customer_id
+23    14
+6     11
+14    11
+9      9
+15     9
+
+Most common delivery issues:
+delivery_issue
+Weather              50
+Stock shortage       41
+Address not found    38
+Courier delay        37
+Damaged package      34
+
+Saved cleaned dataset to /home/claude/customer_order_insights/output/week2_cleaned_orders.csv
+2026-11-09 12:00:52,347 | INFO | DONE   Week 2 - pandas processing
+2026-11-09 12:00:52,347 | INFO | START  Week 3 - PySpark delays by region
+2026-11-09 12:01:27,172 | INFO | 
+Orders: 301 rows | Customers: 30 rows
++------+------------+--------------+--------------+
+|region|total_orders|delayed_orders|avg_delay_days|
++------+------------+--------------+--------------+
+| South|          98|            67|           3.6|
+|  West|          93|            62|          3.81|
+| North|          55|            40|          3.38|
+|  East|          52|            31|          3.77|
++------+------------+--------------+--------------+
+
+Saved results under /home/claude/customer_order_insights/output/week3_delays_by_region_csv and /home/claude/customer_order_insights/output/week3_delays_by_region_parquet
+2026-11-09 12:01:27,173 | INFO | DONE   Week 3 - PySpark delays by region
+2026-11-09 12:01:27,183 | INFO | Delay summary written to output/delay_summary.txt
+2026-11-09 12:01:27,183 | INFO | SUCCESS: Customer order pipeline completed
