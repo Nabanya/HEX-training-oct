@@ -1,0 +1,45 @@
+2026-11-09 11:49:40,696 | INFO | START  Generate sample data
+2026-11-09 11:49:41,067 | INFO | 
+Wrote 201 rows to /home/claude/supply_chain_capstone/data/orders.csv and orders.json
+2026-11-09 11:49:41,067 | INFO | DONE   Generate sample data
+2026-11-09 11:49:41,067 | INFO | START  Week 2 - pandas cleaning
+2026-11-09 11:49:41,751 | INFO | 
+API unavailable (ProxyError); using local file orders.json
+Raw rows: 201
+Clean rows: 197
+
+Sample of processed data:
+  order_id supplier_id  delay_days  is_delayed
+0    O0001        S005           7           1
+1    O0002        S007           5           1
+2    O0003        S006           0           0
+3    O0004        S002           7           1
+4    O0005        S007           2           1
+
+Summary:
+  Delayed orders : 125 of 197
+  Average delay  : 2.16 days
+  Mean lead time : 11.52 days
+
+Saved cleaned data to /home/claude/supply_chain_capstone/output/week2_cleaned_orders.csv
+2026-11-09 11:49:41,751 | INFO | DONE   Week 2 - pandas cleaning
+2026-11-09 11:49:41,752 | INFO | START  Week 3 - PySpark processing
+2026-11-09 11:49:57,472 | INFO | 
+Loaded 201 rows
+Delayed shipments: 125
++-----------+--------------+--------------+
+|supplier_id|delayed_orders|avg_delay_days|
++-----------+--------------+--------------+
+|       S002|            21|          3.86|
+|       S005|            20|           4.1|
+|       S006|            18|          5.11|
+|       S004|            16|          4.69|
+|       S008|            14|          3.86|
+|       S003|            14|          4.14|
+|       S001|            12|          4.33|
+|       S007|            10|           4.3|
++-----------+--------------+--------------+
+
+Saved results under /home/claude/supply_chain_capstone/output/week3_delayed_by_supplier_csv and /home/claude/supply_chain_capstone/output/week3_delayed_by_supplier_parquet
+2026-11-09 11:49:57,472 | INFO | DONE   Week 3 - PySpark processing
+2026-11-09 11:49:57,472 | INFO | Pipeline completed successfully
